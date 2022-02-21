@@ -1,6 +1,5 @@
 # pythonistas
-
-!["It's dangerous to go alone! Take this."](zelda.jpg)
+![No step on snek](https://user-images.githubusercontent.com/4097471/155035647-ad04f2ab-b687-4e80-9f0b-0a11b0693ca9.jpeg)
 <!-- <img src="https://user-images.githubusercontent.com/4097471/144654508-823c6e31-5e10-404c-9f9f-0d6b9d6ce617.jpg" width="300"> -->
 
 ## Summary
