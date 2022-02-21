@@ -1,12 +1,10 @@
-# python_template
+# pythonistas
 
 !["It's dangerous to go alone! Take this."](zelda.jpg)
 <!-- <img src="https://user-images.githubusercontent.com/4097471/144654508-823c6e31-5e10-404c-9f9f-0d6b9d6ce617.jpg" width="300"> -->
 
 ## Summary
-Oftentimes the initial setup of a Python repo can take a few minutes to a couple hours.
-By laying the foundation to rapidly implement an idea, can focus on the good bits instead of
-devops drudgery.
+This repo contains the source code for [Pythonistas Meetups](https://www.meetup.com/pythonistas/). For the repos that predate this one, they'll be included as submodules.
 
 ### Caveat Emptor
 Very little of this gets tested on Windows hosts. Windows Subsystem for Linux (WSL) is used where necessary with the default Ubuntu LTS install.
@@ -173,17 +171,9 @@ playwright codegen wikipedia.org
         ```
 
 ## TODO
-* ~~Add boilerplate to hello.py~~
-* ~~Poetry~~
-* ~~Dockerfile~~
-* ~~Playwright~~
-* ~~Django~~
-    * Merge with [docker_python](https://github.com/pythoninthegrass/docker_python) and put the latter on an ice float
-    * ~~Break out into separate folder~~
 * Flask
     * Bonus points for [Svelte](https://svelte.dev/blog/the-easiest-way-to-get-started) front-end ❤️
     * Break out into separate folder
-* ~~asdf~~
 * terraform
 * k8s
 * wsl
