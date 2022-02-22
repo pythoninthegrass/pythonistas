@@ -4,3 +4,6 @@
 [submodule "unhackable_calculator"]
 	path = unhackable_calculator
 	url = https://github.com/pythoninthegrass/unhackable_calculator.git
+[submodule "Lunch"]
+	path = Lunch
+	url = https://github.com/zookinheimer/Lunch.git
