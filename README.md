@@ -1,6 +1,5 @@
 # pythonistas
 ![No step on snek](https://user-images.githubusercontent.com/4097471/155035647-ad04f2ab-b687-4e80-9f0b-0a11b0693ca9.jpeg)
-<!-- <img src="https://user-images.githubusercontent.com/4097471/144654508-823c6e31-5e10-404c-9f9f-0d6b9d6ce617.jpg" width="300"> -->
 
 ## Summary
 This repo contains the source code for [Pythonistas Meetups](https://www.meetup.com/pythonistas/). For the repos that predate this one, they'll be included as submodules.
@@ -9,6 +8,21 @@ This repo contains the source code for [Pythonistas Meetups](https://www.meetup.
 Very little of this gets tested on Windows hosts. Windows Subsystem for Linux (WSL) is used where necessary with the default Ubuntu LTS install.
 
 Be the change et al if Windows is your main and you wanna raise a PR with broad instructions on getting tooling working under Windows (e.g., docker, poetry, playwright.)
+
+* [pythonistas](#pythonistas)
+  * [Summary](#summary)
+    * [Caveat Emptor](#caveat-emptor)
+  * [Setup](#setup)
+  * [Usage](#usage)
+    * [asdf](#asdf)
+    * [Python pip](#python-pip)
+    * [Poetry](#poetry)
+    * [Docker](#docker)
+      * [Docker Troubleshooting](#docker-troubleshooting)
+    * [Playwright](#playwright)
+    * [Django](#django)
+  * [TODO](#todo)
+  * [Further Reading](#further-reading)
 
 ## Setup
 * Install 
