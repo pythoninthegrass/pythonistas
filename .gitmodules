@@ -1,3 +1,6 @@
 [submodule "nft_meetup"]
 	path = nft_meetup
 	url = https://github.com/pythoninthegrass/nft_meetup.git
+[submodule "unhackable_calculator"]
+	path = unhackable_calculator
+	url = https://github.com/pythoninthegrass/unhackable_calculator.git
