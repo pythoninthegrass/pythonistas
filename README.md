@@ -9,6 +9,7 @@ Very little of this gets tested on Windows hosts. Windows Subsystem for Linux (W
 
 Be the change et al if Windows is your main and you wanna raise a PR with broad instructions on getting tooling working under Windows (e.g., docker, poetry, playwright.)
 
+**Table of Contents**
 * [pythonistas](#pythonistas)
   * [Summary](#summary)
     * [Caveat Emptor](#caveat-emptor)
@@ -21,6 +22,8 @@ Be the change et al if Windows is your main and you wanna raise a PR with broad 
       * [Docker Troubleshooting](#docker-troubleshooting)
     * [Playwright](#playwright)
     * [Django](#django)
+  * [GitHub Actions](#github-actions)
+    * [Update submodules recursively](#update-submodules-recursively)
   * [TODO](#todo)
   * [Further Reading](#further-reading)
 
