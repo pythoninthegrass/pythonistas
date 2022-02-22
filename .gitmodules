@@ -7,3 +7,6 @@
 [submodule "Lunch"]
 	path = Lunch
 	url = https://github.com/zookinheimer/Lunch.git
+[submodule "automate_boring_stuff"]
+	path = automate_boring_stuff
+	url = https://github.com/pythoninthegrass/automate_boring_stuff.git
