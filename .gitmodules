@@ -1,0 +1,3 @@
+[submodule "nft_meetup"]
+	path = nft_meetup
+	url = https://github.com/pythoninthegrass/nft_meetup.git
