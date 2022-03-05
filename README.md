@@ -80,6 +80,11 @@ deactivate
 ```
 
 ### Poetry
+* **NOTE**: it's possible to use the built-in `.venv` virtual environment (e.g., troubleshooting `SolverProblemError` dependency hell)
+ ```bash
+ poetry env use .venv/bin/python
+ ```
+* Normal usage
 ```bash
 # Install (modifies $PATH)
 curl -sSL https://install.python-poetry.org | $(which python3) - # append `--no-modify-path` to EOL if you know what you're doing 
