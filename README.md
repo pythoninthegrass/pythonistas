@@ -244,6 +244,7 @@ playwright codegen wikipedia.org
     ```
 
 ## TODO
+* diff [upstream readme](https://github.com/pythoninthegrass/python_template#readme)
 * Flask
     * Bonus points for [Svelte](https://svelte.dev/blog/the-easiest-way-to-get-started) front-end ❤️
     * Break out into separate folder
