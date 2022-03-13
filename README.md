@@ -15,6 +15,8 @@ Be the change et al if Windows is your main and you wanna raise a PR with broad 
     * [Caveat Emptor](#caveat-emptor)
   * [Setup](#setup)
   * [Usage](#usage)
+    * [Mac and Linux users](#mac-and-linux-users)
+    * [Windows Subsytem for Linux (wsl)](#windows-subsytem-for-linux-wsl)
     * [asdf](#asdf)
     * [Python pip](#python-pip)
     * [Poetry](#poetry)
@@ -24,41 +26,133 @@ Be the change et al if Windows is your main and you wanna raise a PR with broad 
     * [Django](#django)
   * [GitHub Actions](#github-actions)
     * [Update submodules recursively](#update-submodules-recursively)
+  * [Debugging](#debugging)
+    * [asdf](#asdf-1)
+    * [PATH](#path)
   * [TODO](#todo)
   * [Further Reading](#further-reading)
 
 ## Setup
 * Install 
     * [editorconfig](https://editorconfig.org/)
+    * [wsl](https://docs.microsoft.com/en-us/windows/wsl/setup/environment)
     * [asdf](https://asdf-vm.com/manage/core.html#installation-setup)
     * [poetry](https://python-poetry.org/docs/)
     * [docker-compose](https://docs.docker.com/compose/install/)
     * [playwright](https://playwright.dev/python/docs/intro#installation)
 
 ## Usage
+### Mac and Linux users
+Development environments and tooling are first-class citizens on macOS and *nix. For Windows faithfuls, please setup WSL below.
+
+### Windows Subsytem for Linux (wsl)
+WSL allows Windows users to run Linux (Unix) [locally at a system-level](https://docs.microsoft.com/en-us/windows/wsl/compare-versions). All of the standard tooling is used and community guides can be followed without standard Windows caveats (e.g., escaping file paths, GNU utilities missing, etc.) 
+* Install from the [Setup](#setup) section
+* Enable
+  * Start Menu > search for "Turn Windows Features On" > open > toggle "Windows Subsystem for Linux"
+  * Restart
+* M1 Macs only (Intel Macs and native Windows boxes need not apply)
+  * Revert WSL 2 to WSL 1 due to nested virtualization not being available at a hardware level
+    ```bash
+    wsl --set-default-version 1
+    ```
+  * Docker won't run without paravirtualization enabled, but the rest of the development environment will work as expected
+* Install Ubuntu
+  ```bash
+  # enable default distribution (Ubuntu)
+  wsl --install ubuntu
+  ```
+* Start Linux and prep for environment setup
+    ```bash
+    # launch Ubuntu
+    ubuntu
+
+    # upgrade packages (as root: `sudo -s`)
+    apt update && apt upgrade -y
+
+    # install the community python repo (PPA)
+
+
+    # create standard user
+    adduser <username>
+    visudo
+
+    # search for 'Allow root to run any commands anywhere', then append identical line with new user
+    root            ALL=(ALL)       ALL
+    <username>      ALL=(ALL)       ALL
+
+    # Allow members of group sudo to execute any command
+    %sudo  ALL=(ALL) NOPASSWD: ALL
+    ```
+* Additional configuration options
+  * Configuration locations
+    * WSL 1: `/etc/wsl.conf`
+    * WSL 2: `~/.wslconfig`
+      ```bash
+        # set default user
+        [user]
+        default=<username>
+
+        # mounts host drive at /mnt/c/
+        [automount]
+        enabled = true
+        options = "uid=1000,gid=1000"
+
+        # WSL2-specific options
+        [wsl2]
+        memory = 8GB   # Limits VM memory in WSL 2
+        processors = 6 # Makes the WSL 2 VM use two virtual processors
+        ```
+  * After making changes to the configuration file, WSL needs to be shutdown for [8 seconds](https://docs.microsoft.com/en-us/windows/wsl/wsl-config#the-8-second-rule)
+    * `wsl --shutdown`
+  * **OPTIONAL**: Change home directory to host Windows' home
+    ```bash
+    # copy dotfiles to host home directory
+    cp $HOME/.* /mnt/c/Users/<username>
+
+    # edit /etc/passwd
+    <username>:x:1000:1000:,,,:/mnt/c/Users/<username>:/bin/bash
+    ```
+
 ### asdf
-```bash
-# add python plugin
-asdf plugin-add python
+* Install from the [Setup](#setup) section
+* WSL/Ubuntu Linux dependencies
+    ```bash
+    sudo apt install \
+    make build-essential libssl-dev zlib1g-dev \
+    libbz2-dev libreadline-dev libsqlite3-dev wget \
+    curl llvm libncursesw5-dev xz-utils tk-dev \
+    libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+    ```
+* All operating systems
+    ```bash
+    # add python plugin
+    asdf plugin-add python
 
-# install stable python
-asdf install python latest
+    # install stable python
+    asdf install python latest
 
-# refresh symlinks for installed python runtimes
-asdf reshim python
+    # uninstall version
+    asdf uninstall python 3.9.6
 
-# set stable to system python
-asdf global python latest
+    # refresh symlinks for installed python runtimes
+    asdf reshim python
 
-# optional: local python (e.g., python 3.9.10)
-cd $work_dir
-asdf list-all python 3.9
-asdf install python 3.9.10
-asdf local python 3.9.10
+    # set stable to system python
+    asdf global python latest
 
-# check installed python
-asdf list python
-```
+    # optional: local python (e.g., python 3.9.10)
+    cd $work_dir
+    asdf list-all python 3.9
+    asdf install python 3.9.10
+    asdf local python 3.9.10
+
+    # verify python shim in use
+    asdf current
+
+    # check installed python
+    asdf list python
+    ```
 
 ### Python pip
 If a basic virtual environment (`venv`) and `requirements.txt` are all that's needed, can use built-in tools.
@@ -81,63 +175,69 @@ deactivate
 
 ### Poetry
 * **NOTE**: it's possible to use the built-in `.venv` virtual environment (e.g., troubleshooting `SolverProblemError` dependency hell)
- ```bash
- poetry env use .venv/bin/python
- ```
+    ```bash
+    poetry env use .venv/bin/python
+    ```
+* Install from the [Setup](#setup) section
 * Normal usage
-```bash
-# Install (modifies $PATH)
-curl -sSL https://install.python-poetry.org | $(which python3) - # append `--no-modify-path` to EOL if you know what you're doing 
+    ```bash
+    # Install (modifies $PATH)
+    curl -sSL https://install.python-poetry.org | $(which python3) - # append `--no-modify-path` to EOL if you know what you're doing 
 
-# Change config
-poetry config virtualenvs.in-project true           # .venv in `pwd`
-poetry config experimental.new-installer false      # fixes JSONDecodeError on Python3.10
+    # Change config
+    poetry config virtualenvs.in-project true           # .venv in `pwd`
+    poetry config experimental.new-installer false      # fixes JSONDecodeError on Python3.10
 
-# Activate virtual environment (venv)
-poetry shell
+    # Activate virtual environment (venv)
+    poetry shell
 
-# Deactivate venv
-exit  # ctrl-d
+    # Deactivate venv
+    exit  # ctrl-d
 
-# Install multiple libraries
-poetry add google-auth google-api-python-client
+    # Install multiple libraries
+    poetry add google-auth google-api-python-client
 
-# Initialize existing project
-poetry init
+    # Initialize existing project
+    poetry init
 
-# Run script and exit environment
-poetry run python your_script.py
+    # Run script and exit environment
+    poetry run python your_script.py
 
-# Install from requirements.txt
-poetry add `cat requirements.txt`
+    # Install from requirements.txt
+    poetry add `cat requirements.txt`
 
-# Update dependencies
-poetry update
+    # Update dependencies
+    poetry update
 
-# Remove library
-poetry remove google-auth
+    # Remove library
+    poetry remove google-auth
 
-# Generate requirements.txt
-poetry export -f requirements.txt --output requirements.txt --without-hashes
-```
+    # Generate requirements.txt
+    poetry export -f requirements.txt --output requirements.txt --without-hashes
+
+    # Uninstall Poetry (e.g., troubleshooting)
+    POETRY_UNINSTALL=1 bash -c 'curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py' | $(which python3) -
+    ```
 
 ### Docker
-```bash
-# clean build (remove `--no-cache` for speed)
-docker-compose build --no-cache --parallel
+* Install from the [Setup](#setup) section
+* Usage
+    ```bash
+    # clean build (remove `--no-cache` for speed)
+    docker-compose build --no-cache --parallel
 
-# start container
-docker-compose up --remove-orphans -d
+    # start container
+    docker-compose up --remove-orphans -d
 
-# exec into container
-docker attach hello
+    # exec into container
+    docker attach hello
 
-# run command inside container
-python hello.py
+    # run command inside container
+    python hello.py
 
-# destroy container
-docker-compose down
-```
+    # destroy container
+    docker-compose down
+    ```
 
 #### Docker Troubleshooting
 * Watch logs in real-time: `docker-compose logs -tf --tail="50" hello`
@@ -150,18 +250,20 @@ docker-compose down
     ```
 
 ### Playwright
-```bash
-# install
-pip install --upgrade pip
-pip install playwright
-playwright install
+* Install from the [Setup](#setup) section
+* Usage
+    ```bash
+    # install
+    pip install --upgrade pip
+    pip install playwright
+    playwright install
 
-# download new browsers (chromedriver, gecko)
-npx playwright install
+    # download new browsers (chromedriver, gecko)
+    npx playwright install
 
-# generate code via macro
-playwright codegen wikipedia.org
-```
+    # generate code via macro
+    playwright codegen wikipedia.org
+    ```
 
 ### Django
 * Follow the official [Django Docker Compose article](https://docs.docker.com/samples/django/)
@@ -243,22 +345,46 @@ playwright codegen wikipedia.org
             git push
     ```
 
+## Debugging
+### asdf
+**No version set for command python**
+* Make sure `python` or `python3` isn't aliased in `~/.bashrc` or `~/.zshrc`
+
+[bash - Is it possible to check where an alias was defined? - Unix & Linux Stack Exchange](https://unix.stackexchange.com/questions/322459/is-it-possible-to-check-where-an-alias-was-defined/544970#544970)
+
+### PATH
+* `asdf`, `poetry`, and `python` all need to be sourced in your shell `$PATH` in a specific order
+  * `asdf` stores its Python shims in `~/.asdf/shims`
+  * `poetry` lives in `~/.local/bin`
+    ```bash
+    export ASDF_DIR="$HOME/.asdf"
+    export PATH="$ASDF_DIR/shims:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+    ```
+* Furthermore, any aliases or alias files need to be sourced as well
+    ```bash
+    . "$ASDF_DIR/asdf.sh"
+    . "$ASDF_DIR/completions/asdf.bash"
+    . /usr/local/etc/profile.d/poetry.bash-completion
+    ```
+
 ## TODO
-* diff [upstream readme](https://github.com/pythoninthegrass/python_template#readme)
+* ~~diff [upstream readme](https://github.com/pythoninthegrass/python_template#readme)~~
 * Flask
     * Bonus points for [Svelte](https://svelte.dev/blog/the-easiest-way-to-get-started) front-end ❤️
     * Break out into separate folder
+* ~~asdf~~
 * terraform
 * k8s
 * wsl
-    * enable
-    * `.wslconfig` options
-    * install `ppa:deadsnakes/ppa`
+    * ~~enable~~
+    * ~~`.wslconfig` options~~
+    * ~~install `ppa:deadsnakes/ppa`~~
+      * precluded by `asdf` (née `pyenv`)
     * VSCode
         * Remote WSL install and usage
             * Or at least further reading nods
 * Debugging
-   * `$PATH`
+   * ~~`$PATH`~~
    * Dependencies
    * script itself via [icecream](https://github.com/gruns/icecream)
 
@@ -278,6 +404,8 @@ playwright codegen wikipedia.org
 [Compose file version 3 reference | Docker Documentation](https://docs.docker.com/compose/compose-file/compose-file-v3/)
 
 [Getting started | Playwright Python | codegen macro](https://playwright.dev/python/docs/intro)
+
+[Install WSL | Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/install)
 
 [Set up a WSL development environment | Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/setup/environment)
 
