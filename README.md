@@ -36,7 +36,7 @@ Be the change et al if Windows is your main and you wanna raise a PR with broad 
 * Install 
     * [editorconfig](https://editorconfig.org/)
     * [wsl](https://docs.microsoft.com/en-us/windows/wsl/setup/environment)
-    * [asdf](https://asdf-vm.com/manage/core.html#installation-setup)
+    * [asdf](https://asdf-vm.com/guide/getting-started.html#_2-download-asdf)
     * [poetry](https://python-poetry.org/docs/)
     * [docker-compose](https://docs.docker.com/compose/install/)
     * [playwright](https://playwright.dev/python/docs/intro#installation)
@@ -71,7 +71,6 @@ WSL allows Windows users to run Linux (Unix) [locally at a system-level](https:/
     apt update && apt upgrade -y
 
     # install the community python repo (PPA)
-
 
     # create standard user
     adduser <username>
