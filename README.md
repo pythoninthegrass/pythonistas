@@ -123,6 +123,10 @@ WSL allows Windows users to run Linux (Unix) [locally at a system-level](https:/
     curl llvm libncursesw5-dev xz-utils tk-dev \
     libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
     ```
+* Fedora dependencies
+    ```bash
+    sudo dnf install -y bzip2-devel libsqlite3x-devel
+    ```
 * All operating systems
     ```bash
     # add python plugin
