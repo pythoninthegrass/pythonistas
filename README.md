@@ -18,17 +18,22 @@ Be the change et al if Windows is your main and you wanna raise a PR with broad 
     * [Mac and Linux users](#mac-and-linux-users)
     * [Windows Subsytem for Linux (wsl)](#windows-subsytem-for-linux-wsl)
     * [asdf](#asdf)
-    * [Python pip](#python-pip)
+    * [pip](#pip)
     * [Poetry](#poetry)
     * [Docker](#docker)
-      * [Docker Troubleshooting](#docker-troubleshooting)
     * [Playwright](#playwright)
     * [Django](#django)
+    * [Flask](#flask)
+    * [FastAPI](#fastapi)
+    * [Kubernetes (k8s)](#kubernetes-k8s)
+    * [Terraform](#terraform)
   * [GitHub Actions](#github-actions)
     * [Update submodules recursively](#update-submodules-recursively)
   * [Debugging](#debugging)
     * [asdf](#asdf-1)
+    * [Docker](#docker-1)
     * [PATH](#path)
+    * [Terraform](#terraform-1)
   * [TODO](#todo)
   * [Further Reading](#further-reading)
 
@@ -40,6 +45,7 @@ Be the change et al if Windows is your main and you wanna raise a PR with broad 
     * [poetry](https://python-poetry.org/docs/)
     * [docker-compose](https://docs.docker.com/compose/install/)
     * [playwright](https://playwright.dev/python/docs/intro#installation)
+    * [Kubernetes (k8s)](#kubernetes-k8s)
 
 ## Usage
 ### Mac and Linux users
@@ -157,11 +163,16 @@ WSL allows Windows users to run Linux (Unix) [locally at a system-level](https:/
     asdf list python
     ```
 
-### Python pip
+### pip
 If a basic virtual environment (`venv`) and `requirements.txt` are all that's needed, can use built-in tools.
 ```bash
 # create a virtual environment via python
+## built-in
 python3 -m venv .venv
+
+## faster
+python3 -m pip install virtualenv # _or_ pipx install virtualenv
+virtualenv .venv
 
 # activate virtual environment
 source .venv/bin/activate
@@ -238,18 +249,11 @@ deactivate
     # run command inside container
     python hello.py
 
-    # destroy container
-    docker-compose down
-    ```
+    # stop container
+    docker-compose stop
 
-#### Docker Troubleshooting
-* Watch logs in real-time: `docker-compose logs -tf --tail="50" hello`
-* Check exit code
-    ```bash
-    $ docker-compose ps
-    Name                          Command               State    Ports
-    ------------------------------------------------------------------------------
-    docker_python      python manage.py runserver ...   Exit 0
+    # destroy container and network
+    docker-compose down
     ```
 
 ### Playwright
@@ -295,6 +299,82 @@ deactivate
         # django/data/
         # django/manage.py
         ```
+
+### Flask
+
+### FastAPI
+
+### Kubernetes (k8s)
+* Easiest way to set up a local single node cluster is via one of the following:
+    * [Rancher Desktop](https://docs.rancherdesktop.io/getting-started/installation)
+    * [minikube](https://minikube.sigs.k8s.io/docs/start/)
+      * Incidentally, `minikube` ships with the Kubernetes Dashboard
+        ```bash
+        minikube dashboard
+        ```
+      * The boilerplate [Terraform plan](#terraform) below hasn't been tested against `minikube`
+    * [multipass](https://multipass.run/) with [microk8s](https://ubuntu.com/tutorials/getting-started-with-kubernetes-ha#1-overview)
+* Add aliases to `~/.bashrc` or `~/.zshrc`
+    ```bash
+    # k8s
+    alias k="kubectl"
+    alias kc="kubectl config use-context"
+    alias kns='kubectl config set-context --current --namespace'
+    alias kgns="kubectl config view --minify --output 'jsonpath={..namespace}' | xargs printf '%s\n'"
+    KUBECONFIG="$HOME/.kube/config:$HOME/.kube/kubeconfig:$HOME/.kube/k3s.yaml"
+    ```
+* CLI/TUI (terminal user interface) management of k8s
+  * [k9s](https://github.com/derailed/k9s#installation)
+    * Built-in help: type `?`
+    * Main Screen
+    ![Main screen](img/k9s_main.png)
+    * Describe a pod
+    ![Describe a pod](img/k9s_describe.png)
+
+### Terraform
+* **NOTES**: 
+  * This section depends on Kubernetes and a `~/.kubeconfig` from [above](#kubernetes-k8s)
+  * `NodePort` was used instead of `LoadBalancer` for `service.type`
+    * [MetalLB is a stretch goal](https://stackoverflow.com/a/71047314) for future deployments
+* Install `terraform` via `asdf
+    ```bash
+    # terraform
+    asdf plugin-add terraform
+    asdf install terraform latest
+    ```
+* Add aliases to `~/.bashrc` or `~/.zshrc`
+    ```bash
+    # ~/.bashrc
+    alias tf='terraform'
+    alias tfi='terraform init -backend-config=./state.conf'
+    alias tfa='terraform apply'
+    alias tfp='terraform plan'
+    alias tfpn='terraform plan -refresh=false'
+    ```
+* Navigate to `./terraform/` and [initialize](https://www.terraform.io/cli/commands/init) the `terraform` working directory
+    ```bash
+    cd terraform/
+    tfi
+    ```
+* Create an [execution plan](https://www.terraform.io/cli/commands/plan)
+    ```bash
+    tfp
+    ```
+* [Apply/execute the actions](https://www.terraform.io/cli/commands/apply) from Terraform plan
+    ```bash
+    tfa
+    ```
+* Navigate to `http://localhost:<port>`
+  * Port can be found via `kubectl`
+    ```bash
+    k get svc   # 80:31942/TCP
+    ```
+* [Tear down deployment](https://www.terraform.io/cli/commands/destroy)
+    ```bash
+    tf destroy
+    ```
+  * Real-time view of pod removal
+    ![Real-time view of pod removal](img/k9s_termination.png)
 
 ## GitHub Actions
 ### Update submodules recursively
@@ -355,6 +435,16 @@ deactivate
 
 [bash - Is it possible to check where an alias was defined? - Unix & Linux Stack Exchange](https://unix.stackexchange.com/questions/322459/is-it-possible-to-check-where-an-alias-was-defined/544970#544970)
 
+### Docker
+* Watch logs in real-time: `docker-compose logs -tf --tail="50" hello`
+* Check exit code
+    ```bash
+    $ docker-compose ps
+    Name                          Command               State    Ports
+    ------------------------------------------------------------------------------
+    docker_python      python manage.py runserver ...   Exit 0
+    ```
+
 ### PATH
 * `asdf`, `poetry`, and `python` all need to be sourced in your shell `$PATH` in a specific order
   * `asdf` stores its Python shims in `~/.asdf/shims`
@@ -369,23 +459,36 @@ deactivate
     . "$ASDF_DIR/completions/asdf.bash"
     . /usr/local/etc/profile.d/poetry.bash-completion
     ```
+### Terraform
+* [Verbose logging](https://www.terraform.io/cli/config/environment-variables) and redirection to a file
+    ```bash
+    export TF_LOG="trace"                       # unset via "off"
+    export TF_LOG_PATH="$HOME/Downloads/tf.log" # `~` doesn't expand
+    ```
+    * [Log levels](https://www.terraform.io/internals/debugging)
+      * TRACE
+      * DEBUG
+      * INFO
+      * WARN
+      * ERROR
+* `Error: cannot re-use a name that is still in use`
+    > I think I resolved the issue. This is what I did: 1) mv the terraform.tfstate to another name, 2) mv the terraform.tfstate.backup to terraform.tfstate, and 3) run 'terraform refresh' command to confirm the state is synchronized, and 4) run 'terraform apply' to delete/create the resource. I will mark your reply as the answer, as it gives me the clue for solving the issue. Thanks! – ozmhsh Dec 9, 2021 at 4:57
+
+    [nginx - Stuck in the partial helm release on Terraform to Kubernetes - Stack Overflow](https://stackoverflow.com/questions/70281363/stuck-in-the-partial-helm-release-on-terraform-to-kubernetes#comment124244564_70281451)
 
 ## TODO
-* ~~diff [upstream readme](https://github.com/pythoninthegrass/python_template#readme)~~
+* Django
+    * Merge with [docker_python](https://github.com/pythoninthegrass/docker_python) and put the latter on an ice float
 * Flask
     * Bonus points for [Svelte](https://svelte.dev/blog/the-easiest-way-to-get-started) front-end ❤️
-    * Break out into separate folder
-* ~~asdf~~
-* terraform
+* FastAPI
 * k8s
+  * `~/.kubeconfig`
+* ansible
 * wsl
-    * ~~enable~~
-    * ~~`.wslconfig` options~~
-    * ~~install `ppa:deadsnakes/ppa`~~
-      * precluded by `asdf` (née `pyenv`)
-    * VSCode
-        * Remote WSL install and usage
-            * Or at least further reading nods
+  * VSCode
+      * Remote WSL install and usage
+        * Or at least further reading nods
 * Debugging
    * ~~`$PATH`~~
    * Dependencies
