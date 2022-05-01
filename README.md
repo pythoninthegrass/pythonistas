@@ -495,26 +495,26 @@ deactivate
    * script itself via [icecream](https://github.com/gruns/icecream)
 
 ## Further Reading
-[Basic writing and formatting syntax - GitHub Docs](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
+[Basic writing and formatting syntax - GitHub Docs](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)  
 
-[venv — Creation of virtual environments — Python 3.7.2 documentation](https://docs.python.org/3/library/venv.html)
+[venv — Creation of virtual environments — Python 3.7.2 documentation](https://docs.python.org/3/library/venv.html)  
 
-[pip freeze - pip documentation v22.0.3](https://pip.pypa.io/en/stable/cli/pip_freeze/)
+[pip freeze - pip documentation v22.0.3](https://pip.pypa.io/en/stable/cli/pip_freeze/)  
 
-[Introduction | Documentation | Poetry - Python dependency management and packaging made easy](https://python-poetry.org/docs/)
+[Introduction | Documentation | Poetry - Python dependency management and packaging made easy](https://python-poetry.org/docs/)  
 
-[Commands | Documentation | Poetry - Python dependency management and packaging made easy](https://python-poetry.org/docs/cli#export)
+[Commands | Documentation | Poetry - Python dependency management and packaging made easy](https://python-poetry.org/docs/cli#export)  
 
-[Overview of Docker Compose | Docker Documentation](https://docs.docker.com/compose/)
+[Overview of Docker Compose | Docker Documentation](https://docs.docker.com/compose/)  
 
-[Compose file version 3 reference | Docker Documentation](https://docs.docker.com/compose/compose-file/compose-file-v3/)
+[Compose file version 3 reference | Docker Documentation](https://docs.docker.com/compose/compose-file/compose-file-v3/)  
 
-[Getting started | Playwright Python | codegen macro](https://playwright.dev/python/docs/intro)
+[Getting started | Playwright Python | codegen macro](https://playwright.dev/python/docs/intro)  
 
-[Install WSL | Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/install)
+[Install WSL | Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/install)  
 
-[Set up a WSL development environment | Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/setup/environment)
+[Set up a WSL development environment | Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/setup/environment)  
 
-[Advanced settings configuration in WSL | Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/wsl-config)
+[Advanced settings configuration in WSL | Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/wsl-config)  
 
-[Understanding The Python Path Environment Variable in Python](https://www.simplilearn.com/tutorials/python-tutorial/python-path)
+[Understanding The Python Path Environment Variable in Python](https://www.simplilearn.com/tutorials/python-tutorial/python-path)  
