@@ -477,6 +477,15 @@ deactivate
     [nginx - Stuck in the partial helm release on Terraform to Kubernetes - Stack Overflow](https://stackoverflow.com/questions/70281363/stuck-in-the-partial-helm-release-on-terraform-to-kubernetes#comment124244564_70281451)
 
 ## TODO
+* pipx
+ ```bash
+ # Install
+ python3 -m pip install --user pipx
+ python3 -m pipx ensurepath
+
+ # Usage
+ ...
+ ```
 * Django
     * Merge with [docker_python](https://github.com/pythoninthegrass/docker_python) and put the latter on an ice float
 * Flask
