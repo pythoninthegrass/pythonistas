@@ -76,8 +76,6 @@ WSL allows Windows users to run Linux (Unix) [locally at a system-level](https:/
     # upgrade packages (as root: `sudo -s`)
     apt update && apt upgrade -y
 
-    # install the community python repo (PPA)
-
     # create standard user
     adduser <username>
     visudo
@@ -326,10 +324,29 @@ deactivate
 * CLI/TUI (terminal user interface) management of k8s
   * [k9s](https://github.com/derailed/k9s#installation)
     * Built-in help: type `?`
-    * Main Screen
+    * Main Screen: `:pod`
     ![Main screen](img/k9s_main.png)
-    * Describe a pod
+    * Describe a pod: `d`
     ![Describe a pod](img/k9s_describe.png)
+    * Delete a pod: 
+      * `ctrl-d`
+      * Replicas rebuild
+    ![Delete a pod](img/k9s_delete_pod.png)
+    * Remove resource (permanent)
+      * `:deploy`
+      * `ctrl-d`
+    ![Remove resource](img/k9s_remove_res.png)
+* [POC](https://itnext.io/simplest-minimal-k8s-app-tutorial-with-rancher-desktop-in-5-min-5481edb9a4a5)
+  ```bash
+  git clone https://github.com/jwsy/simplest-k8s.git
+  k config get-contexts     # should have `rancher-desktop` selected
+  kc rancher-desktop        # switch to rancher context if not
+  k apply -f simplest-k8s
+  k delete -f simplest-k8s
+  ```
+  * Navigate to https://jade-shooter.rancher.localhost/ in Chrome
+  * Allow self-signed cert
+  * Profit 💸 
 
 ### Terraform
 * **NOTES**: 
@@ -499,31 +516,34 @@ deactivate
       * Remote WSL install and usage
         * Or at least further reading nods
 * Debugging
-   * ~~`$PATH`~~
    * Dependencies
    * script itself via [icecream](https://github.com/gruns/icecream)
 
 ## Further Reading
-[Basic writing and formatting syntax - GitHub Docs](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)  
+[Basic writing and formatting syntax - GitHub Docs](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 
-[venv — Creation of virtual environments — Python 3.7.2 documentation](https://docs.python.org/3/library/venv.html)  
+[venv — Creation of virtual environments — Python 3.7.2 documentation](https://docs.python.org/3/library/venv.html)
 
-[pip freeze - pip documentation v22.0.3](https://pip.pypa.io/en/stable/cli/pip_freeze/)  
+[pip freeze - pip documentation v22.0.3](https://pip.pypa.io/en/stable/cli/pip_freeze/)
 
-[Introduction | Documentation | Poetry - Python dependency management and packaging made easy](https://python-poetry.org/docs/)  
+[Introduction | Documentation | Poetry - Python dependency management and packaging made easy](https://python-poetry.org/docs/)
 
-[Commands | Documentation | Poetry - Python dependency management and packaging made easy](https://python-poetry.org/docs/cli#export)  
+[Commands | Documentation | Poetry - Python dependency management and packaging made easy](https://python-poetry.org/docs/cli#export)
 
-[Overview of Docker Compose | Docker Documentation](https://docs.docker.com/compose/)  
+[Overview of Docker Compose | Docker Documentation](https://docs.docker.com/compose/)
 
-[Compose file version 3 reference | Docker Documentation](https://docs.docker.com/compose/compose-file/compose-file-v3/)  
+[Compose file version 3 reference | Docker Documentation](https://docs.docker.com/compose/compose-file/compose-file-v3/)
 
-[Getting started | Playwright Python | codegen macro](https://playwright.dev/python/docs/intro)  
+[Commands](https://k9scli.io/topics/commands/)
 
-[Install WSL | Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/install)  
+[Speed up administration of Kubernetes clusters with k9s | Opensource.com](https://opensource.com/article/20/5/kubernetes-administration)
 
-[Set up a WSL development environment | Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/setup/environment)  
+[Getting started | Playwright Python | codegen macro](https://playwright.dev/python/docs/intro)
 
-[Advanced settings configuration in WSL | Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/wsl-config)  
+[Install WSL | Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/install)
 
-[Understanding The Python Path Environment Variable in Python](https://www.simplilearn.com/tutorials/python-tutorial/python-path)  
+[Set up a WSL development environment | Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/setup/environment)
+
+[Advanced settings configuration in WSL | Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/wsl-config)
+
+[Understanding The Python Path Environment Variable in Python](https://www.simplilearn.com/tutorials/python-tutorial/python-path)
